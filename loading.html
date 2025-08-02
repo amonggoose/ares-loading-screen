@@ -72,8 +72,8 @@
 <div id="background-container"></div>
 
 <div id="overlay">
-  <h1>ARES NETWORKS</h1>
-  <p>1942 ROLEPLAY</p>
+  <h1>Ares Networks</h1>
+  <p>Loading, please wait...</p>
 </div>
 
 <button id="mute-button">Mute Music</button>
@@ -82,10 +82,10 @@
 
 <script>
   const backgrounds = [
-  'https://amonggoose.github.io/ares-loading-screen/backgrounds/bg1.jpg',
-  'https://amonggoose.github.io/ares-loading-screen/backgrounds/bg2.jpg',
-  'https://amonggoose.github.io/ares-loading-screen/backgrounds/bg3.jpg',
-  'https://amonggoose.github.io/ares-loading-screen/backgrounds/bg4.jpg'
+    'https://amonggoose.github.io/ares-loading-screen/backgrounds/bg1.jpg',
+    'https://amonggoose.github.io/ares-loading-screen/backgrounds/bg2.jpg',
+    'https://amonggoose.github.io/ares-loading-screen/backgrounds/bg3.jpg',
+    'https://amonggoose.github.io/ares-loading-screen/backgrounds/bg4.jpg'
   ];
 
   const songs = [
@@ -93,7 +93,7 @@
     'https://amonggoose.github.io/ares-loading-screen/music/Deutschland-RAMMSTEIN.mp3'
   ];
 
-  // Background logic
+  // Background setup
   const bgContainer = document.getElementById('background-container');
 
   backgrounds.forEach((bg, i) => {
@@ -113,25 +113,25 @@
     bgImages[currentBg].classList.add('visible');
   }, 10000);
 
-  // Music logic
+  // Music setup
   const audio = document.getElementById('bg-music');
   const muteBtn = document.getElementById('mute-button');
   let isMuted = false;
 
+  // Choose a random song
   const randomIndex = Math.floor(Math.random() * songs.length);
   audio.src = songs[randomIndex];
   audio.volume = 0.5;
 
   function tryPlay() {
-    audio.play().catch((e) => {
+    audio.play().catch(() => {
       console.log('Autoplay blocked, waiting for user interaction...');
     });
   }
 
-  // Attempt autoplay on load
   window.addEventListener('load', tryPlay);
 
-  // Guarantee play on user click
+  // Ensure play on user click (fixes autoplay block)
   document.body.addEventListener('click', () => {
     tryPlay();
   });
@@ -151,4 +151,3 @@
 
 </body>
 </html>
-
