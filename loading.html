@@ -78,7 +78,7 @@
 
 <button id="mute-button">Mute Music</button>
 
-<audio id="bg-music" autoplay loop></audio>
+<audio id="bg-music" loop></audio>
 
 <script>
   const backgrounds = [
@@ -91,6 +91,7 @@
     'https://amonggoose.github.io/ares-loading-screen/music/Deutschland-RAMMSTEIN.mp3'
   ];
 
+  // Background logic
   const bgContainer = document.getElementById('background-container');
 
   backgrounds.forEach((bg, i) => {
@@ -110,17 +111,29 @@
     bgImages[currentBg].classList.add('visible');
   }, 10000);
 
+  // Music logic
   const audio = document.getElementById('bg-music');
+  const muteBtn = document.getElementById('mute-button');
   let isMuted = false;
 
   const randomIndex = Math.floor(Math.random() * songs.length);
   audio.src = songs[randomIndex];
   audio.volume = 0.5;
-  audio.play().catch(() => {
-    console.log('Autoplay prevented');
+
+  function tryPlay() {
+    audio.play().catch((e) => {
+      console.log('Autoplay blocked, waiting for user interaction...');
+    });
+  }
+
+  // Attempt autoplay on load
+  window.addEventListener('load', tryPlay);
+
+  // Guarantee play on user click
+  document.body.addEventListener('click', () => {
+    tryPlay();
   });
 
-  const muteBtn = document.getElementById('mute-button');
   muteBtn.addEventListener('click', () => {
     if (isMuted) {
       audio.muted = false;
